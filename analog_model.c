@@ -1,0 +1,250 @@
+#define ANALOG_M
+#include "analog_model.h"
+#include "analog_old_patch.h"
+#include "general_include.h"
+#include "Uart.h"
+#include "bk4819.h"
+#if DEBUG_EN
+#if DEBUG_TO_USB
+#define _DEBUG(fmtString, ...) CPUartLogPrintf(fmtString, ##__VA_ARGS__)
+#else
+#define _DEBUG(fmtString, ...) printf(fmtString, ##__VA_ARGS__)
+#endif
+#else
+#define _DEBUG(fmtString, ...)
+#endif
+
+void write_default_channel(void)
+{
+    unsigned char ucChEnTable[28];
+    unsigned char default_buf[336 + 1] = //21*16=336
+        {
+            ///--1 --2-----3 --- 4-----5-----6-----7----8-----9-----10----11-----12---13---14---15----16-----
+            #if 1
+            //00-‭40402500‬-0x‭2687E44-0x‭2 0x68 0x7E 0x44
+            0x44, 0x7E, 0x68, 0x02, 0x44, 0x7E, 0x68, 0x02, 0xFF, 0x0F, 0xFF, 0x0F, 0x00, 0x00, 0x06, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            #else
+            //00-‭45770000‬-0x‭2BA6510‬-0x‭2 0xBA 0x65 0x10
+            0x10, 0x65, 0xBA, 0x02, 0x10, 0x65, 0xBA, 0x02, 0xFF, 0x0F, 0x7C, 0x04, 0x00, 0x20, 0x06, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            #endif
+            //01-‭45770000‬-0x‭2BA6510‬-0x‭2 0xBA 0x65 0x10
+            0x10, 0x65, 0xBA, 0x02, 0x10, 0x65, 0xBA, 0x02, 0xFF, 0x0F, 0xCE, 0x04, 0x00, 0x20, 0x06, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            //02-‭45782500‬-0x‭2BA95E4‬-0x‭2 0xBA 0x95 0xE4‬
+            0xE4, 0x95, 0xBA, 0x02, 0xE4, 0x95, 0xBA, 0x02, 0xFF, 0x0F, 0xFF, 0x0F, 0x00, 0x00, 0x06, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            //03-‭45800000‬-0x‭2BADA40‬-0x‭2 0xBA 0xDA 0x40‬
+            0x40, 0xDA, 0xBA, 0x02, 0x40, 0xDA, 0xBA, 0x02, 0xFF, 0x0F, 0xFF, 0x0F, 0x00, 0x00, 0x06, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            //04-‭45500000‬-0x‭2B64660‬-0x‭2 0xB6 0x46 0x60‬
+            0x60, 0x46, 0xB6, 0x02, 0x60, 0x46, 0xB6, 0x02, 0xFF, 0x0F, 0xFF, 0x0F, 0x00, 0x00, 0x06, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            //05-‭‭45000000‬-0x‭2AEA540‬-0x‭2 0xAE 0xA5 0x40‬
+            0x40, 0xA5, 0xAE, 0x02, 0x40, 0xA5, 0xAE, 0x02, 0xFF, 0x0F, 0xFF, 0x0F, 0x00, 0x00, 0x06, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            //06-‭46500000-0x‭2C588A0‬-0x‭2 0xC5 0x88 0xA0‬
+            0xA0, 0x88, 0xC5, 0x02, 0xA0, 0x88, 0xC5, 0x02, 0xFF, 0x0F, 0xFF, 0x0F, 0x00, 0x00, 0x06, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            //07-‭46600000-0x‭2C70F40‬-0x‭2 0xC7 0x0F 0x40‬
+            0x40, 0x0F, 0xC7, 0x02, 0x40, 0x0F, 0xC7, 0x02, 0xFF, 0x0F, 0xFF, 0x0F, 0x00, 0x00, 0x06, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            //08-‭45300000-0x‭2B33920‬-0x‭2 0xB3 0x39 0x20‬
+            0x20, 0x39, 0xB3, 0x02, 0x20, 0x39, 0xB3, 0x02, 0xFF, 0x0F, 0xFF, 0x0F, 0x00, 0x00, 0x06, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            //09-‭45877000-0x‭2BC0708‬-‭0x2 0xBC 0x07 0x08‬
+            0x08, 0x07, 0xBC, 0x02, 0x08, 0x07, 0xBC, 0x02, 0xFF, 0x0F, 0xFF, 0x0F, 0x00, 0x00, 0x06, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            //10-‭45572500-0x‭2B76194‬-‭0x2 0xB7 0x61 0x94‬
+            0x94, 0x61, 0xB7, 0x02, 0x94, 0x61, 0xB7, 0x02, 0xFF, 0x0F, 0xFF, 0x0F, 0x00, 0x00, 0x06, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            //11-‭45162500-0x‭2B12004‬-0x‭2 0xB1 0x20 0x04‬
+            0x04, 0x20, 0xB1, 0x02, 0x04, 0x20, 0xB1, 0x02, 0xFF, 0x0F, 0xFF, 0x0F, 0x00, 0x00, 0x06, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            //12-‭46468750-0x‭2C50E8E‬-0x‭2 0xC5 0x0E 0x8E‬
+            //12-45468750-0x‭2B5CC4E‬-0x‭2 0xB5 0xCC 0x4E‬
+            0x8E, 0x0E, 0xC5, 0x02, 0x4E, 0xCC, 0xB5, 0x02, 0x55, 0x04, 0x55, 0x04, 0x00, 0x00, 0x06, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            //13-‭46458750-0x‭2C4E77E‬-0x‭2 0xC4 0xE7 0x7E‬
+            //13-‭45458750-0x‭2B5A53E‬-0x‭2 0xB5 0xA5 0x3E‬
+            0x7E, 0xE7, 0xC4, 0x02, 0x3E, 0xA5, 0xB5, 0x02, 0xE8, 0x03, 0xE8, 0x03, 0x00, 0x00, 0x06, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            //14-‭46822500-0x‭2CA7464‬-0x‭2 0xCA 0x74 0x64‬
+            //14-45822500-0x‭2BB3224‬-0x‭2 0xBB 0x32 0x24‬
+            0x64, 0x74, 0xCA, 0x02, 0x24, 0x32, 0xBB, 0x02, 0xFF, 0x0F, 0x27, 0x00, 0x00, 0x00, 0x06, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+            //15-‭46820000-‭0x2CA6AA0‬-0x‭2 0xCA 0x6A 0xA0‬
+            //15-45820000-0x‭2BB2860‬-0x‭2 0xBB 0x28 0x60‬
+            0xA0, 0x6A, 0xCA, 0x02, 0x60, 0x28, 0xBB, 0x02, 0xFF, 0x0F, 0x15, 0x00, 0x00, 0x00, 0x06, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20
+
+        };
+
+    memset(ucChEnTable, 0, sizeof(ucChEnTable));
+    ucChEnTable[0] = 0xFF;
+    ucChEnTable[1] = 0xFF; //0xFFFF表示16个信道
+
+    memcpy(toa_flash2.pocket, default_buf, 16 * 21);
+    memcpy(toa_flash2.pocket + ConMenEnBegAddr, ucChEnTable, 28);
+    _DEBUG("write 16 default channel!\r\n");
+    //写入flash后读取
+    // uart_set_analog_cfg_to_file();
+    // init_get_analog_cfg_from_file();
+}
+
+void read_analog_channel_info(void)
+{
+    unsigned int channel_data = 0;
+    unsigned char channel_buf[32];
+
+    channel_max_num = CalNowChannelNumMax();
+    /* 
+read rx tx freq
+04459602 -> 
+0x04 0x45 0x96 0x02 ->
+0x02 0x96 0x45 0x04 -> 
+0x2964504 ->
+43402500Hz */
+    for (unsigned char i = 0; i < channel_max_num; i++)
+    {
+        memcpy(channel_buf, toa_flash2.pocket + (21 * i), 21);
+        channel_data = 0;
+        channel_data = channel_buf[3];    //0x02
+        channel_data = channel_data << 8; //0x0200
+        channel_data += channel_buf[2];   //0x0296
+        channel_data = channel_data << 8; //0x029600
+        channel_data += channel_buf[1];   //0x029645
+        channel_data = channel_data << 8; //0x02964500
+        channel_data += channel_buf[0];   //0x02964504
+        channel_info[i].rx_freq = channel_data;
+
+        // if (i == 1)
+        // {
+        //     _DEBUG("channel:1=%02X\r\n1=%02X\r\n2=%02X\r\n3=%02X\r\n", channel_buf[0], channel_buf[1], channel_buf[2], channel_buf[3]);
+        // }
+
+        channel_data = 0;
+        channel_data = channel_buf[7];
+        channel_data = channel_data << 8;
+        channel_data += channel_buf[6];
+        channel_data = channel_data << 8;
+        channel_data += channel_buf[5];
+        channel_data = channel_data << 8;
+        channel_data += channel_buf[4];
+        channel_info[i].tx_freq = channel_data;
+
+        channel_info[i].step_freq = channel_buf[14] & 0x0f; ///D14(B0-B3)步进频率
+        if (channel_info[i].step_freq > 12)
+        {
+            channel_info[i].step_freq = 12;
+        }
+
+        channel_info[i].channel_spacing = channel_buf[12] & 0x30; //D12 Bit5~Bit4 带宽 0宽带 1中带 2窄带
+        channel_info[i].channel_spacing = channel_info[i].channel_spacing >> 4;
+
+        channel_info[i].tx_power = channel_buf[12] & 0xC0; //D12 Bit7~Bit6 功率 0高 1中 2低
+        channel_info[i].tx_power = channel_info[i].tx_power >> 6;
+
+        SetCtcDscInfPro(&channel_info[i].rx_sub_audio, &channel_buf[8]);
+        SetCtcDscInfPro(&channel_info[i].tx_sub_audio, &channel_buf[10]);
+
+        channel_info[i].rx_sub_audio.cdcss_direction = channel_buf[11] & 0x40;
+        if (channel_info[i].rx_sub_audio.cdcss_direction == 0)
+        {
+            channel_info[i].rx_sub_audio.cdcss_direction = 0;
+        }
+        else
+        {
+            channel_info[i].rx_sub_audio.cdcss_direction = 1;
+        }
+
+        channel_info[i].tx_sub_audio.cdcss_direction = channel_buf[11] & 0x80;
+        if (channel_info[i].tx_sub_audio.cdcss_direction == 0)
+        {
+            channel_info[i].tx_sub_audio.cdcss_direction = 0;
+        }
+        else
+        {
+            channel_info[i].tx_sub_audio.cdcss_direction = 1;
+        }
+    }
+
+    //freq num -> freq str
+    memset(rx_channel_buf, 0, sizeof(rx_channel_buf));
+    for (unsigned char j = 0; j < channel_max_num; j++)
+    {
+        freq_value_2_disp_str(channel_info[j].rx_freq, rx_channel_buf[j]);
+        _DEBUG("rx_channel_buf[%d]=%s\r\n", j, rx_channel_buf);
+    }
+}
+
+void am_init(void)
+{
+    memset(&ana_all, 0, sizeof(ana_all));
+
+    //keep mr mode
+    ana_all.cur_mode = 0;
+
+    //cp freq data
+    ana_all.mr_channel_index = 1;
+    ana_all.mr_channel = channel_info[0];
+    ana_all.cur_channel = ana_all.mr_channel;
+
+    //kb4819 set
+    bk4819_set_freq(ana_all.mr_channel.rx_freq);
+
+    ang_seting_flash.toa_flash.save_power_level = 0;
+
+    toa.tx_flag = 0;
+    toa.rx_flag = RX_IDLE;
+    toa.sq_state = 0;
+}
+
+#if 0
+//"43690000"->"436.90000"
+void freq_value_str_2_disp(unsigned char *res, unsigned char *dest)
+{
+    unsigned char tmp_buf[4] = {0};
+    //todo 需要重写识别不出来
+    if (strlen((char *)res) == 8)
+    {
+        memcpy(tmp_buf, res, 3);
+        sprintf(dest, "%s%s%s", tmp_buf, ".", res + 3);
+    }
+}
+#endif
+
+void channel_index_2_disp_str(unsigned char res, unsigned char *dest)
+{
+    sprintf((char *)dest, "%03d", res);
+}
+
+//43690000->"436.90000"
+void freq_value_2_disp_str(unsigned int res, char *dest)
+{
+    char tmp_buf1[9] = {0};
+    char tmp_buf2[4] = {0};
+
+    memset(tmp_buf1, 0, sizeof(tmp_buf1));
+    memset(tmp_buf2, 0, sizeof(tmp_buf2));
+
+    sprintf(tmp_buf1, "%d", res);
+
+    if (strlen(tmp_buf1) == 8)
+    {
+        memcpy(tmp_buf2, tmp_buf1, 3);
+        sprintf(dest, "%s%s%s", tmp_buf2, ".", tmp_buf1 + 3);
+    }
+}
+
+//1000->"100.0"
+//690->"69.0"
+void ctc_value_2_disp_str(unsigned int res, char *dest)
+{
+    char tmp_buf1[9] = {0};
+    char tmp_buf2[4] = {0};
+
+    memset(tmp_buf1, 0, sizeof(tmp_buf1));
+    memset(tmp_buf2, 0, sizeof(tmp_buf2));
+
+    sprintf(tmp_buf1, "%d", res);
+
+    if (strlen(tmp_buf1) == 4)
+    {
+        memcpy(tmp_buf2, tmp_buf1, 3);
+        sprintf(dest, "%s%s%s", tmp_buf2, ".", tmp_buf1 + 3);
+    }
+    else if (strlen(tmp_buf1) == 3)
+    {
+        memcpy(tmp_buf2, tmp_buf1, 2);
+        sprintf(dest, "%s%s%s", tmp_buf2, ".", tmp_buf1 + 2);
+    }
+    else
+    {
+        /* code */
+    }
+}

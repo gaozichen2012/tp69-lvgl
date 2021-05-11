@@ -1,0 +1,24 @@
+build/obj/gpio.o: gpio.c config.h general_include.h tom_flash.h Zpoc.h \
+ D:\5-ec100y-sdk\ql-sdk-1210d\ql-application\threadx/interface/os/inc/ql_rtos.h \
+ D:\5-ec100y-sdk\ql-sdk-1210d\ql-application\threadx/common/include/ql_type.h \
+ D:\5-ec100y-sdk\ql-sdk-1210d\ql-application\threadx/interface/driver/inc/ql_gpio.h \
+ D:\5-ec100y-sdk\ql-sdk-1210d\ql-application\threadx/interface/driver/inc/ql_power.h \
+ D:\5-ec100y-sdk\ql-sdk-1210d\ql-application\threadx/interface/multimedia\inc/ql_audio.h \
+ D:\5-ec100y-sdk\ql-sdk-1210d\ql-application\threadx/common/include/AudioHAL.h \
+ D:\5-ec100y-sdk\ql-sdk-1210d\ql-application\threadx/interface/fs/inc/ql_fs.h \
+ D:\5-ec100y-sdk\ql-sdk-1210d\ql-application\threadx/common/include/lfs.h \
+ D:\5-ec100y-sdk\ql-sdk-1210d\ql-application\threadx/common/include/lfs_config.h \
+ D:\5-ec100y-sdk\ql-sdk-1210d\ql-application\threadx/common/include/UART.h \
+ D:\5-ec100y-sdk\ql-sdk-1210d\ql-application\threadx/common/include/global_types.h \
+ D:\5-ec100y-sdk\ql-sdk-1210d\ql-application\threadx/common/include/gbl_types.h \
+ D:\5-ec100y-sdk\ql-sdk-1210d\ql-application\threadx/common/include/utils.h \
+ D:\5-ec100y-sdk\ql-sdk-1210d\ql-application\threadx/common/include/pmu.h \
+ D:\5-ec100y-sdk\ql-sdk-1210d\ql-application\threadx/common/include/syscfg.h \
+ D:\5-ec100y-sdk\ql-sdk-1210d\ql-application\threadx/common/include/hal_cfg.h \
+ D:\5-ec100y-sdk\ql-sdk-1210d\ql-application\threadx/common/include/quec_cust_feature.h \
+ D:\5-ec100y-sdk\ql-sdk-1210d\ql-application\threadx/common/include/QuecPrjName.h \
+ D:\5-ec100y-sdk\ql-sdk-1210d\ql-application\threadx/common/include/quec_cust_patch.h \
+ D:\5-ec100y-sdk\ql-sdk-1210d\ql-application\threadx/common/include/quec_production_cfg.h \
+ D:\5-ec100y-sdk\ql-sdk-1210d\ql-application\threadx/common/include/lfs_trace.h \
+ D:\5-ec100y-sdk\ql-sdk-1210d\ql-application\threadx/common/include/utilities.h \
+ gpio.h charging.h

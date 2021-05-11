@@ -1,0 +1,12 @@
+{
+    "files.associations": {
+        "splash.h": "c",
+        "lvgl_init.h": "c",
+        "lvgl.h": "c",
+        "lv_tp69.h": "c",
+        "lv_event.h": "c",
+        "lv_startup.h": "c",
+        "lv_menu.h": "c",
+        "lv_desktop.h": "c"
+    }
+}
