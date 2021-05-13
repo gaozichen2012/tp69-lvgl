@@ -7,6 +7,12 @@
         "lv_event.h": "c",
         "lv_startup.h": "c",
         "lv_menu.h": "c",
-        "lv_desktop.h": "c"
-    }
+        "lv_desktop.h": "c",
+        "lv_calendar.h": "c",
+        "lcd.h": "c",
+        "lv_task.h": "c",
+        "lv_ll.h": "c",
+        "lv_math.h": "c"
+    },
+    "C_Cpp.errorSquiggles": "Disabled"
 }

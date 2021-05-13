@@ -1,3 +1,6 @@
+LVGL_DIR ?= ${TOP_DIR}/interface/tp69
+LVGL_DIR_NAME ?= lvgl
+include lvgl.mk
 
 #-------------------------------------------------------------------------------
 # Configure variable
@@ -10,7 +13,10 @@ MAKEFILE_PATH :=$(subst $(strip \),/,$(abspath $(lastword $(MAKEFILE_LIST))))
 #-------------------------------------------------------------------------------
 # Configure source code files
 #-------------------------------------------------------------------------------
-SRC_FILES+= gpio.c lcd.c tp69_main.c 
+SRC_FILES+= font.c gpio.c lcd.c tp69_main.c \
+            lvgl_init.c \
+            $(CSRCS)
+
 
 #-------------------------------------------------------------------------------
 # the include directories
@@ -34,6 +40,8 @@ INC_DIRS+= \
   -I${TOP_DIR}/interface/fota/inc \
   -I${TOP_DIR}/interface/ssl/inc \
   -I${TOP_DIR}/interface/tp69 \
+  -I${TOP_DIR}/interface/tp69/lvgl \
+  -I${TOP_DIR}/interface/tp69/lv_tp69 \
 
 #-------------------------------------------------------------------------------
 # Configure compile flag

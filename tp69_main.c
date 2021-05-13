@@ -15,6 +15,10 @@
 
 #include "gpio.h"
 #include "lcd.h"
+#include "font.h"
+
+#include "lv_tp69/lv_tp69.h"
+#include "lvgl_init.h"
 
 #if DEBUG_EN
 #if DEBUG_TO_USB
@@ -43,17 +47,35 @@ ql_queue_t msqid;
 
 extern const unsigned char gImage_splash[LCD_WIDTH * LCD_HEIGHT * 2];
 
+ql_task_t tick_task_ref;
+
+static void tick_process(void *pData)
+{
+	while (1)
+	{
+		ql_rtos_task_sleep_ms(1);
+		lv_tick_inc(1);
+		lv_task_handler();
+	}
+}
+
 void tp69_mcu_main_task(void *pData)
 {
 	ql_rtos_queue_create(&msqid, sizeof(ZPOC_MSG_TYPE), 1000);
 
+	/*Initialize LittlevGL*/
 	lv_init();
+
+	/*Initialize the HAL for LittlevGL*/
+	lvgl_hal_init();
 
 	font_pkg_init();
 
 	gpio_port_init();
 
 	lcd_device_init();
+
+	ql_rtos_task_create(&tick_task_ref, 2048, 100, "tick_process", tick_process, NULL);
 
 	while (1)
 		ql_rtos_task_sleep_s(1000);
