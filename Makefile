@@ -15,8 +15,13 @@ MAKEFILE_PATH :=$(subst $(strip \),/,$(abspath $(lastword $(MAKEFILE_LIST))))
 #-------------------------------------------------------------------------------
 SRC_FILES+= font.c gpio.c lcd.c tp69_main.c \
             lvgl_init.c \
-            $(CSRCS)
-
+            $(CSRCS) \
+            lv_tp69/src/lv_desktop.c \
+            lv_tp69/src/lv_event.c \
+            lv_tp69/src/lv_menu.c \
+            lv_tp69/src/lv_menu_net.c \
+            lv_tp69/src/lv_startup.c \
+            lv_tp69/assets/freq_20x20.c
 
 #-------------------------------------------------------------------------------
 # the include directories
