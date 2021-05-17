@@ -52,26 +52,20 @@ ql_task_t lvgl_start_task_ref;
 
 static void tick_process(void *pData)
 {
-	static unsigned int cnt = 0;
+	static unsigned int tmp_cnt = 0;
 
 	while (1)
 	{
-		if (cnt++ > 1000)
-		{
-			cnt = 0;
-			//_DEBUG("tom test 5!\r\n");
-		}
-		ql_rtos_task_sleep_ms(1);
-		lv_tick_inc(1);
+		ql_rtos_task_sleep_ms(1000);
+		_DEBUG("tom test 5!\r\n");
 		lv_task_handler();
+		lv_tick_inc(10);
 	}
 }
 
 static void lvgl_start_process(void *pData)
 {
-	static unsigned int cnt = 0;
-
-	lv_startup();
+	//lv_startup();
 
 	while (1)
 	{
@@ -86,24 +80,30 @@ void tp69_mcu_main_task(void *pData)
 
 	/*Initialize LittlevGL*/
 	lv_init();
-	_DEBUG("tom test 1!\r\n");
-	lcd_device_init();
 
 	/*Initialize the HAL for LittlevGL*/
 	lvgl_hal_init();
 
+	_DEBUG("tom test 1!\r\n");
+	lcd_device_init();
 	_DEBUG("tom test 2!\r\n");
 	font_pkg_init();
 	_DEBUG("tom test 3!\r\n");
 	gpio_port_init();
 
-	_DEBUG("tom test 6!\r\n");
-	ql_rtos_task_create(&lvgl_start_task_ref, 2048, 100, "lvgl_start_process", lvgl_start_process, NULL);
+	_DEBUG("tom test 7!\r\n");
+	// lcd_disp_box(0, 16, COLOR_BLUE, LCD_WIDTH, LCD_HEIGHT);
+	// lcd_update_disp();
+	ql_rtos_task_sleep_s(5);
+	_DEBUG("tom test 88!\r\n");
+	lv_startup();
 
 	_DEBUG("tom test 4!\r\n");
 	ql_rtos_task_create(&tick_task_ref, 2048, 100, "tick_process", tick_process, NULL);
 
-	_DEBUG("tom test 7!\r\n");
+	_DEBUG("tom test 6!\r\n");
+	ql_rtos_task_create(&lvgl_start_task_ref, 2048, 100, "lvgl_start_process", lvgl_start_process, NULL);
+
 	while (1)
 		ql_rtos_task_sleep_s(1000);
 }

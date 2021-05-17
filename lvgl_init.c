@@ -2,11 +2,25 @@
 #include "lvgl_init.h"
 #include "lcd.h"
 
+#include <stdio.h>
+#include <string.h>
+#define DEBUG_EN 1
+#define DEBUG_TO_USB 0
+#if DEBUG_EN
+#if DEBUG_TO_USB
+#define _DEBUG(fmtString, ...) CPUartLogPrintf(fmtString, ##__VA_ARGS__)
+#else
+#define _DEBUG(fmtString, ...) printf(fmtString, ##__VA_ARGS__)
+#endif
+#else
+#define _DEBUG(fmtString, ...)
+#endif
+
 extern unsigned short usMap[LCD_WIDTH * LCD_HEIGHT];
 
 lv_color_t test_fb[LV_HOR_RES_MAX * LV_VER_RES_MAX];
 
-static void ILI9341_flush(lv_disp_drv_t *disp_drv, const lv_area_t *area, lv_color_t *color_p)
+static void ili9341_flush_cb(lv_disp_drv_t *disp_drv, const lv_area_t *area, lv_color_t *color_p)
 {
 #if 1
     LV_UNUSED(area);
@@ -14,7 +28,7 @@ static void ILI9341_flush(lv_disp_drv_t *disp_drv, const lv_area_t *area, lv_col
 
     memcpy(usMap, color_p, lv_area_get_size(area) * sizeof(lv_color_t));
     lcd_update_disp();
-
+    _DEBUG("tom test: ili9341_flush_cb!\r\n");
     /* IMPORTANT!!!
      * Inform the graphics library that you are ready with the flushing*/
     lv_disp_flush_ready(disp_drv);
@@ -37,11 +51,11 @@ void lvgl_hal_init(void)
     static lv_disp_buf_t disp_buf;
     static lv_color_t buf_1[LV_HOR_RES_MAX * 10];
     lv_disp_buf_init(&disp_buf, buf_1, NULL, LV_HOR_RES_MAX * 10);
-
+    _DEBUG("tom test: lvgl_hal_init!\r\n");
     lv_disp_drv_t disp_drv;
     lv_disp_drv_init(&disp_drv);
     disp_drv.buffer = &disp_buf;
-    disp_drv.flush_cb = ILI9341_flush;
+    disp_drv.flush_cb = ili9341_flush_cb;
     lv_disp_drv_register(&disp_drv);
 }
 #else
@@ -70,7 +84,7 @@ void lvgl_hal_init(void)
     lv_disp_drv_t disp_drv; //包含回调函数，可与显示交互并处理与图形相关的事物。
     lv_disp_drv_init(&disp_drv);
     disp_drv.buffer = &disp_buf;
-    disp_drv.flush_cb = ILI9341_flush;
+    disp_drv.flush_cb = ili9341_flush_cb;
     lv_windows_disp = lv_disp_drv_register(&disp_drv);
 }
 #endif
