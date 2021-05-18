@@ -33,7 +33,7 @@ static lv_obj_t *t3;
 
 void lv_startup(void)
 {
-#if 1
+#if 0
     _DEBUG("tom test 9-1!\r\n");
     tv = lv_tabview_create(lv_scr_act(), NULL);
     _DEBUG("tom test 9-2!\r\n");
