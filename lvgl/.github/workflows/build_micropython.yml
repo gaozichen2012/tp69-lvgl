@@ -2,9 +2,9 @@ name: Build Micropython with LVGL submodule
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, dev ]
   pull_request:
-    branches: [ master ]
+    branches: [ master, dev ]
 
 jobs:
   build:
@@ -18,7 +18,9 @@ jobs:
         sudo apt-get update -y -qq
         sudo apt-get install libsdl2-dev
     - name: Clone lv_micropython
-      run: git clone https://github.com/lvgl/lv_micropython.git .
+      run: |
+        git clone https://github.com/lvgl/lv_micropython.git .
+        git checkout dev-8.0
     - name: Update submodules
       run: git submodule update --init --recursive
     - name: Checkout LVGL submodule
@@ -37,6 +39,5 @@ jobs:
         echo "import gc,utime;
         utime.sleep(5);
         gc.collect();
-        utime.sleep(5)" | 
+        utime.sleep(5)" |
         ports/unix/micropython -i lib/lv_bindings/examples/advanced_demo.py
-    
