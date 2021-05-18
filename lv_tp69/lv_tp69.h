@@ -24,7 +24,7 @@ extern "C"
  *      DEFINES
  *********************/
 /*Test  lvgl version*/
-#if LV_VERSION_CHECK(7, 5, 0) == 0
+#if LV_VERSION_CHECK(8, 0, 0) == 0
 #error "lv_examples: Wrong lvgl version"
 #endif
 
