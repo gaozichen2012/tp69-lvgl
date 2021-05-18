@@ -56,10 +56,9 @@ static void tick_process(void *pData)
 
 	while (1)
 	{
-		ql_rtos_task_sleep_ms(1000);
-		_DEBUG("tom test 5!\r\n");
-		lv_task_handler();
+		ql_rtos_task_sleep_ms(1);
 		lv_tick_inc(10);
+		lv_task_handler();
 	}
 }
 
