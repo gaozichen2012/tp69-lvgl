@@ -86,5 +86,12 @@ void lvgl_hal_init(void)
     disp_drv.buffer = &disp_buf;
     disp_drv.flush_cb = ili9341_flush_cb;
     lv_disp_drv_register(&disp_drv);
+
+    lv_indev_drv_t indev_drv;
+    lv_indev_drv_init(&indev_drv); /*Basic initialization*/
+    indev_drv.type = LV_INDEV_TYPE_BUTTON;
+    indev_drv.read_cb = key_cb;
+    /*Register the driver in LVGL and save the created input device object*/
+    lv_indev_t *my_indev = lv_indev_drv_register(&indev_drv);
 }
 #endif
