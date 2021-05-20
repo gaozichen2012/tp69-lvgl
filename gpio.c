@@ -185,6 +185,50 @@ PIN_LEVEL_E gpio_hph_get_lvl(void)
 	return lvl;
 }
 
+unsigned char get_key_ok_state(void)
+{
+	PIN_LEVEL_E lvl;
+	ql_gpio_get_level(PIN_KEY1_NUM, &lvl);
+
+	if (lvl == PIN_LEVEL_LOW)
+		return 1;
+	else
+		return 0;
+}
+
+unsigned char get_key_up_state(void)
+{
+	PIN_LEVEL_E lvl;
+	ql_gpio_get_level(PIN_KEY2_NUM, &lvl);
+
+	if (lvl == PIN_LEVEL_LOW)
+		return 1;
+	else
+		return 0;
+}
+
+unsigned char get_key_down_state(void)
+{
+	PIN_LEVEL_E lvl;
+	ql_gpio_get_level(PIN_KEY3_NUM, &lvl);
+
+	if (lvl == PIN_LEVEL_LOW)
+		return 1;
+	else
+		return 0;
+}
+
+unsigned char get_key_back_state(void)
+{
+	PIN_LEVEL_E lvl;
+	ql_gpio_get_level(PIN_KEY4_NUM, &lvl);
+
+	if (lvl == PIN_LEVEL_LOW)
+		return 1;
+	else
+		return 0;
+}
+
 void gpio_pwrkey_int_cb(void)
 {
 	ql_pwrkey_intc_enable(0); //disable pwrkey intc

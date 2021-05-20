@@ -56,7 +56,7 @@ static void tick_process(void *pData)
 
 	while (1)
 	{
-		ql_rtos_task_sleep_ms(1);
+		ql_rtos_task_sleep_ms(10);
 		lv_tick_inc(10);
 		lv_task_handler();
 	}
@@ -77,31 +77,29 @@ void tp69_mcu_main_task(void *pData)
 {
 	ql_rtos_queue_create(&msqid, sizeof(ZPOC_MSG_TYPE), 1000);
 
+	gpio_port_init();
+
 	/*Initialize LittlevGL*/
 	lv_init();
 
 	/*Initialize the HAL for LittlevGL*/
 	lvgl_hal_init();
 
-	_DEBUG("tom test 1!\r\n");
 	lcd_device_init();
-	_DEBUG("tom test 2!\r\n");
-	font_pkg_init();
-	_DEBUG("tom test 3!\r\n");
-	gpio_port_init();
 
-	_DEBUG("tom test 7!\r\n");
+	font_pkg_init();
+
 	// lcd_disp_box(0, 16, COLOR_BLUE, LCD_WIDTH, LCD_HEIGHT);
 	// lcd_update_disp();
 	ql_rtos_task_sleep_s(5);
-	_DEBUG("tom test 88!\r\n");
+
 	lv_startup();
 
 	_DEBUG("tom test 4!\r\n");
-	ql_rtos_task_create(&tick_task_ref, 2048, 100, "tick_process", tick_process, NULL);
+	ql_rtos_task_create(&tick_task_ref, 2048, 73, "tick_process", tick_process, NULL);
 
 	_DEBUG("tom test 6!\r\n");
-	ql_rtos_task_create(&lvgl_start_task_ref, 2048, 100, "lvgl_start_process", lvgl_start_process, NULL);
+	//ql_rtos_task_create(&lvgl_start_task_ref, 2048, 100, "lvgl_start_process", lvgl_start_process, NULL);
 
 	while (1)
 		ql_rtos_task_sleep_s(1000);

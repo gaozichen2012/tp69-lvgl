@@ -155,7 +155,10 @@ void gpio_set_g_led(PIN_LEVEL_E euSta);
 void gpio_push_key_msg(enKeyValue keyValue);
 
 PIN_LEVEL_E gpio_hph_get_lvl(void);
-
+unsigned char get_key_ok_state(void);
+unsigned char get_key_up_state(void);
+unsigned char get_key_down_state(void);
+unsigned char get_key_back_state(void);
 unsigned char gpio_bk_sda_int_cb(void);
 
 #endif
