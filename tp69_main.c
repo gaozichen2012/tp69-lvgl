@@ -47,29 +47,24 @@ ql_queue_t msqid;
 
 extern const unsigned char gImage_splash[LCD_WIDTH * LCD_HEIGHT * 2];
 
-ql_task_t tick_task_ref;
-ql_task_t lvgl_start_task_ref;
+ql_task_t lv_tick_ref;
+ql_task_t lv_task_ref;
 
-static void tick_process(void *pData)
+static void lv_tick_process(void *pData)
 {
-	static unsigned int tmp_cnt = 0;
-
 	while (1)
 	{
-		ql_rtos_task_sleep_ms(10);
-		lv_tick_inc(10);
-		lv_task_handler();
+		ql_rtos_task_sleep_ms(5);
+		lv_tick_inc(5);
 	}
 }
 
-static void lvgl_start_process(void *pData)
+static void lv_task_process(void *pData)
 {
-	//lv_startup();
-
 	while (1)
 	{
-		ql_rtos_task_sleep_ms(1000);
-		_DEBUG("tom test 21!\r\n");
+		ql_rtos_task_sleep_ms(5);
+		lv_task_handler();
 	}
 }
 
@@ -95,11 +90,8 @@ void tp69_mcu_main_task(void *pData)
 
 	lv_startup();
 
-	_DEBUG("tom test 4!\r\n");
-	ql_rtos_task_create(&tick_task_ref, 2048, 73, "tick_process", tick_process, NULL);
-
-	_DEBUG("tom test 6!\r\n");
-	//ql_rtos_task_create(&lvgl_start_task_ref, 2048, 100, "lvgl_start_process", lvgl_start_process, NULL);
+	ql_rtos_task_create(&lv_tick_ref, 2048, 100, "lv_tick_process", lv_tick_process, NULL);
+	ql_rtos_task_create(&lv_task_ref, 2048, 99, "lv_task_process", lv_task_process, NULL);
 
 	while (1)
 		ql_rtos_task_sleep_s(1000);
