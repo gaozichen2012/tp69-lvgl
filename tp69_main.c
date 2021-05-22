@@ -50,11 +50,20 @@ extern const unsigned char gImage_splash[LCD_WIDTH * LCD_HEIGHT * 2];
 ql_task_t lv_tick_ref;
 ql_task_t lv_task_ref;
 
+unsigned int cnt1 = 0;
+unsigned int cnt2 = 0;
+
 static void lv_tick_process(void *pData)
 {
 	while (1)
 	{
 		ql_rtos_task_sleep_ms(5);
+		if (cnt1++ > 1000)
+		{
+			cnt1 = 0;
+			_DEBUG("tom test: tick 5s\r\n");
+		}
+
 		lv_tick_inc(5);
 	}
 }
@@ -64,6 +73,12 @@ static void lv_task_process(void *pData)
 	while (1)
 	{
 		ql_rtos_task_sleep_ms(5);
+
+		if (cnt2++ > 1000)
+		{
+			cnt2 = 0;
+			_DEBUG("tom test: task 5s\r\n");
+		}
 		lv_task_handler();
 	}
 }
@@ -71,8 +86,14 @@ static void lv_task_process(void *pData)
 void tp69_mcu_main_task(void *pData)
 {
 	ql_rtos_queue_create(&msqid, sizeof(ZPOC_MSG_TYPE), 1000);
-
+#if 1
+	ql_gpio_init(PIN_KEY1_NUM, PIN_DIRECTION_IN, PIN_PULL_PU, PIN_LEVEL_HIGH);
+	ql_gpio_init(PIN_KEY2_NUM, PIN_DIRECTION_IN, PIN_PULL_PU, PIN_LEVEL_HIGH);
+	ql_gpio_init(PIN_KEY3_NUM, PIN_DIRECTION_IN, PIN_PULL_PU, PIN_LEVEL_HIGH);
+	ql_gpio_init(PIN_KEY4_NUM, PIN_DIRECTION_IN, PIN_PULL_PU, PIN_LEVEL_HIGH);
+#else
 	gpio_port_init();
+#endif
 
 	/*Initialize LittlevGL*/
 	lv_init();
@@ -89,9 +110,8 @@ void tp69_mcu_main_task(void *pData)
 	ql_rtos_task_sleep_s(5);
 
 	lv_startup();
-
-	ql_rtos_task_create(&lv_tick_ref, 2048, 100, "lv_tick_process", lv_tick_process, NULL);
 	ql_rtos_task_create(&lv_task_ref, 2048, 99, "lv_task_process", lv_task_process, NULL);
+	ql_rtos_task_create(&lv_tick_ref, 2048, 100, "lv_tick_process", lv_tick_process, NULL);
 
 	while (1)
 		ql_rtos_task_sleep_s(1000);

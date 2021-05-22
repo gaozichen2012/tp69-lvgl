@@ -18,13 +18,12 @@
 #endif
 
 extern unsigned short usMap[LCD_WIDTH * LCD_HEIGHT];
-
 static void ili9341_flush_cb(lv_disp_drv_t *disp_drv, const lv_area_t *area, lv_color_t *color_p)
 {
 #if 1
     memcpy(usMap, color_p, lv_area_get_size(area) * sizeof(lv_color_t));
     lcd_update_disp();
-    _DEBUG("tom test: ili9341_flush_cb!\r\n");
+
     /* IMPORTANT!!!
      * Inform the graphics library that you are ready with the flushing*/
     lv_disp_flush_ready(disp_drv);
@@ -130,6 +129,26 @@ static bool button_read(lv_indev_drv_t *indev_drv, lv_indev_data_t *data)
 
 void lvgl_hal_init(void)
 {
+#if 0   //reflesh type 1
+    /*A static or global variable to store the buffers*/
+    static lv_disp_buf_t disp_buf;
+
+    /*Static or global buffer(s). The second buffer is optional*/
+    static lv_color_t buf_1[LV_HOR_RES_MAX * 10];
+
+    /*Initialize `disp_buf` with the buffer(s) */
+    lv_disp_buf_init(&disp_buf, buf_1, NULL, LV_HOR_RES_MAX * 10);
+#elif 0 //reflesh type 2
+    /*A static or global variable to store the buffers*/
+    static lv_disp_buf_t disp_buf;
+
+    /*Static or global buffer(s). The second buffer is optional*/
+    static lv_color_t buf_1[LV_HOR_RES_MAX * 10];
+    static lv_color_t buf_2[LV_HOR_RES_MAX * 10];
+
+    /*Initialize `disp_buf` with the buffer(s) */
+    lv_disp_buf_init(&disp_buf, buf_1, buf_2, LV_HOR_RES_MAX * 10);
+#else   //reflesh type 3
     /*A static or global variable to store the buffers*/
     static lv_disp_buf_t disp_buf; //包含内部图形缓冲区。
 
@@ -139,6 +158,7 @@ void lvgl_hal_init(void)
 
     /*Initialize `disp_buf` with the buffer(s) */
     lv_disp_buf_init(&disp_buf, buf_1, buf_2, LV_HOR_RES_MAX * LV_VER_RES_MAX);
+#endif
 
     /* 
         Display buffer准备就绪，就需要初始化Display driver 

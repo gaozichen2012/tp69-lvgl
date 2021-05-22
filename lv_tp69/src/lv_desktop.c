@@ -17,6 +17,7 @@
 
 LV_IMG_DECLARE(freq_20x20);
 
+extern lv_obj_t *scr;
 static lv_obj_t *cont;
 
 lv_obj_t *net_notification_bar(lv_obj_t *parent, lv_obj_t *obj_ref)
@@ -93,7 +94,7 @@ static void btn_ok_event_cb(lv_obj_t *obj, lv_event_t event)
     {
         printf("Toggled\n");
 
-        lv_scr_load(menu_src);
+        page_switch(1);
     }
 }
 
@@ -121,25 +122,21 @@ void lv_desktop(lv_obj_t *parent)
 {
     lv_obj_t *cont_1, *cont_2, *cont_3, *cont_4, *cont_5;
 
+    parent = lv_obj_create(scr, NULL);
+
     //创建一个容器对象
-    _DEBUG("tom test 8-1!\r\n");
     cont = lv_cont_create(parent, NULL);
-    _DEBUG("tom test 8-2!\r\n");
     lv_obj_set_size(cont, 160, 128);
     // lv_obj_set_auto_realign(cont, true);                   /*Auto realign when the size changes*/
     // lv_obj_align_origo(cont, NULL, LV_ALIGN_CENTER, 0, 0); /*This parametrs will be sued when realigned*/
     // lv_cont_set_fit(cont, LV_FIT_TIGHT);
     // lv_cont_set_layout(cont, LV_LAYOUT_COLUMN_MID);
-    _DEBUG("tom test 8-3!\r\n");
+
     lv_obj_set_style_local_value_str(cont, LV_CONT_PART_MAIN, LV_STATE_DEFAULT, "Basics");
-    _DEBUG("tom test 8-4!\r\n");
     cont_1 = net_notification_bar(cont, cont);
-    _DEBUG("tom test 8-5!\r\n");
     cont_2 = net_display_bar(cont, cont_1);
-    _DEBUG("tom test 8-6!\r\n");
     cont_3 = analog_notification_bar(cont, cont_2);
-    _DEBUG("tom test 8-7!\r\n");
     cont_4 = analog_display_bar(cont, cont_3);
-    _DEBUG("tom test 8-8!\r\n");
+
     cont_5 = bottom_bar(cont, cont_4);
 }

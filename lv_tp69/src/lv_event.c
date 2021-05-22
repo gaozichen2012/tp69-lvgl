@@ -18,12 +18,12 @@ void event_handler(lv_obj_t *obj, lv_event_t event)
         if (test_flg == 0)
         {
             test_flg = 1;
-            lv_scr_load(menu_src);
+            page_switch(1);
         }
         else
         {
             test_flg = 0;
-            lv_scr_load(desktop_src);
+            page_switch(0);
         }
     }
 }
