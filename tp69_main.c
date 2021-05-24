@@ -84,14 +84,14 @@ static void lv_tick_process(void *pData)
 {
 	while (1)
 	{
-		ql_rtos_task_sleep_ms(1);
+		ql_rtos_task_sleep_ms(5);
 		if (cnt1++ > 1000)
 		{
 			cnt1 = 0;
 			_DEBUG("tom test: tick 5s\r\n");
 		}
 
-		lv_tick_inc(1);
+		lv_tick_inc(5);
 	}
 }
 
@@ -100,7 +100,7 @@ static void lv_task_process(void *pData)
 	uint32_t rst = 0;
 	while (1)
 	{
-		ql_rtos_task_sleep_ms(1);
+		ql_rtos_task_sleep_ms(5);
 
 		if (cnt2++ > 500)
 		{
@@ -125,7 +125,7 @@ void tp69_mcu_main_task(void *pData)
 #endif
 
 	ql_rtos_task_create(&lv_start_ref, 1024 * 2, 76, "lv_start_process", lv_start_process, NULL);
-	ql_rtos_task_create(&lv_task_ref, 1024 * 8, 75, "lv_task_process", lv_task_process, NULL);
+	ql_rtos_task_create(&lv_task_ref, 1024 * 2, 75, "lv_task_process", lv_task_process, NULL);
 	ql_rtos_task_create(&lv_tick_ref, 1024 * 2, 74, "lv_tick_process", lv_tick_process, NULL);
 
 	while (1)

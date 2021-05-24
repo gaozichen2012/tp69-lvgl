@@ -20,7 +20,7 @@
 #endif
 
 extern unsigned short usMap[LCD_WIDTH * LCD_HEIGHT];
-static void ili9341_flush_cb(lv_disp_drv_t *disp_drv, const lv_area_t *area, lv_color_t *color_p)
+void ili9341_flush_cb(lv_disp_drv_t *disp_drv, const lv_area_t *area, lv_color_t *color_p)
 {
 #if 1
     memcpy(usMap, color_p, LCD_WIDTH * LCD_HEIGHT * 2);
@@ -172,7 +172,7 @@ void lvgl_hal_init(void)
         要查看哪一个是渲染的最后一块，请使用lv_disp_flush_is_last()。
     */
 
-    lv_disp_drv_t disp_drv; //包含回调函数，可与显示交互并处理与图形相关的事物。
+    static lv_disp_drv_t disp_drv; //包含回调函数，可与显示交互并处理与图形相关的事物。
     lv_disp_drv_init(&disp_drv);
     disp_drv.hor_res = LCD_WIDTH;
     disp_drv.ver_res = LCD_HEIGHT;
