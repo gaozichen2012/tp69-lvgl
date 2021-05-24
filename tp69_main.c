@@ -110,6 +110,7 @@ void tp69_mcu_main_task(void *pData)
 	ql_rtos_task_sleep_s(5);
 
 	lv_startup();
+	lv_demo_benchmark();
 	ql_rtos_task_create(&lv_task_ref, 2048, 99, "lv_task_process", lv_task_process, NULL);
 	ql_rtos_task_create(&lv_tick_ref, 2048, 100, "lv_tick_process", lv_tick_process, NULL);
 

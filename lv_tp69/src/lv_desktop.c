@@ -17,7 +17,6 @@
 
 LV_IMG_DECLARE(freq_20x20);
 
-extern lv_obj_t *scr;
 static lv_obj_t *cont;
 
 lv_obj_t *net_notification_bar(lv_obj_t *parent, lv_obj_t *obj_ref)
@@ -121,8 +120,6 @@ static lv_obj_t *bottom_bar(lv_obj_t *parent, lv_obj_t *obj_ref)
 void lv_desktop(lv_obj_t *parent)
 {
     lv_obj_t *cont_1, *cont_2, *cont_3, *cont_4, *cont_5;
-
-    parent = lv_obj_create(scr, NULL);
 
     //创建一个容器对象
     cont = lv_cont_create(parent, NULL);

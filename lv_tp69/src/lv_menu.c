@@ -1,8 +1,6 @@
 #include "../lv_tp69.h"
 #include "lv_menu.h"
 
-extern lv_obj_t *scr;
-
 static lv_obj_t *list1;
 static lv_obj_t *list_btn1, *list_btn2, *list_btn3, *list_btn4;
 
@@ -163,8 +161,6 @@ static lv_obj_t *bottom_bar(lv_obj_t *parent, lv_obj_t *obj_ref)
 
 void lv_menu(lv_obj_t *parent)
 {
-    parent = lv_obj_create(scr, NULL);
-
     /*Create a list*/
     list1 = lv_list_create(parent, NULL);
     lv_obj_set_size(list1, 160, 128 - 16);

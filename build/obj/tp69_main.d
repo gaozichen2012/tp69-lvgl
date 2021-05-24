@@ -186,5 +186,6 @@ build/obj/tp69_main.o: tp69_main.c \
  lv_tp69/../lvgl/src/lv_draw/lv_img_cache.h \
  lv_tp69/../lvgl/src/lv_draw/lv_img_decoder.h \
  lv_tp69/../lvgl/src/lv_api_map.h lv_tp69/../lvgl/src/../lvgl.h \
- lv_tp69/src/lv_startup.h lv_tp69/src/lv_event.h lv_tp69/src/lv_desktop.h \
- lv_tp69/src/lv_menu.h lv_tp69/src/lv_menu_net.h lvgl_init.h
+ lv_tp69/../lv_ex_conf.h lv_tp69/src/lv_startup.h lv_tp69/src/lv_event.h \
+ lv_tp69/src/lv_desktop.h lv_tp69/src/lv_menu.h lv_tp69/src/lv_menu_net.h \
+ lvgl_init.h

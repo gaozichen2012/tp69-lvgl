@@ -1,8 +1,6 @@
 #include "../lv_tp69.h"
 #include "lv_menu_net.h"
 
-extern lv_obj_t *scr;
-
 static void list_event_handler(lv_obj_t *obj, lv_event_t event)
 {
     if (event == LV_EVENT_CLICKED)
@@ -70,9 +68,6 @@ static lv_obj_t *bottom_bar(lv_obj_t *parent, lv_obj_t *obj_ref)
 
 void lv_menu_net(lv_obj_t *parent)
 {
-
-    parent = lv_obj_create(scr, NULL);
-
     /*Create a list*/
     lv_obj_t *list1 = lv_list_create(parent, NULL);
     lv_obj_set_size(list1, 160, 128 - 16);
