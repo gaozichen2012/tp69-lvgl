@@ -47,11 +47,38 @@ ql_queue_t msqid;
 
 extern const unsigned char gImage_splash[LCD_WIDTH * LCD_HEIGHT * 2];
 
+ql_task_t lv_start_ref;
 ql_task_t lv_tick_ref;
 ql_task_t lv_task_ref;
 
 unsigned int cnt1 = 0;
 unsigned int cnt2 = 0;
+
+static void lv_start_process(void *pData)
+{
+	/*Initialize LittlevGL*/
+	lv_init();
+
+	/*Initialize the HAL for LittlevGL*/
+	lvgl_hal_init();
+
+	lcd_device_init();
+
+	font_pkg_init();
+
+	// lcd_disp_box(0, 16, COLOR_BLUE, LCD_WIDTH, LCD_HEIGHT);
+	// lcd_update_disp();
+	ql_rtos_task_sleep_s(5);
+
+	//lv_startup();
+	lv_demo_benchmark();
+
+	while (1)
+	{
+		ql_rtos_task_sleep_ms(5000);
+		_DEBUG("tom test: tick 5s\r\n");
+	}
+}
 
 static void lv_tick_process(void *pData)
 {
@@ -95,22 +122,7 @@ void tp69_mcu_main_task(void *pData)
 	gpio_port_init();
 #endif
 
-	/*Initialize LittlevGL*/
-	lv_init();
-
-	/*Initialize the HAL for LittlevGL*/
-	lvgl_hal_init();
-
-	lcd_device_init();
-
-	font_pkg_init();
-
-	// lcd_disp_box(0, 16, COLOR_BLUE, LCD_WIDTH, LCD_HEIGHT);
-	// lcd_update_disp();
-	ql_rtos_task_sleep_s(5);
-
-	lv_startup();
-	lv_demo_benchmark();
+	ql_rtos_task_create(&lv_start_ref, 1024 * 32, 74, "lv_start_process", lv_start_process, NULL);
 	ql_rtos_task_create(&lv_task_ref, 2048, 99, "lv_task_process", lv_task_process, NULL);
 	ql_rtos_task_create(&lv_tick_ref, 2048, 100, "lv_tick_process", lv_tick_process, NULL);
 
