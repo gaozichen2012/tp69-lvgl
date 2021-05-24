@@ -1,14 +1,20 @@
-cont = lv.cont(lv.scr_act())
-cont.set_auto_realign(True)                    # Auto realign when the size changes
-cont.align_origo(None, lv.ALIGN.CENTER, 0, 0)  # This parametrs will be sued when realigned
+# create a container
+cont = lv.cont(lv.scr_act(),None)
+cont.set_auto_realign(True)                 # Auto realign when the size changes
+cont.align_mid(None,lv.ALIGN.CENTER,0,0)  # This parameters will be sued when realigned
 cont.set_fit(lv.FIT.TIGHT)
-cont.set_layout(lv.LAYOUT.COL_M)
-
+cont.set_layout(lv.LAYOUT.COLUMN_MID);
 label = lv.label(cont)
 label.set_text("Short text")
+
+# Refresh and pause here for a while to see how `fit` works
+time.sleep(1)
 
 label = lv.label(cont)
 label.set_text("It is a long text")
 
+# Wait here too
+time.sleep(1)
+
 label = lv.label(cont)
-label.set_text("Here is an even longer text")
+label.set_text("Here an even longer text")

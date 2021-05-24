@@ -8,12 +8,6 @@
  *********************/
 #include "../../lv_examples.h"
 #include "lv_demo_keypad_encoder.h"
-#if LV_EX_KEYBOARD
-#include "lv_drivers/indev/keyboard.h"
-#endif
-#if LV_EX_MOUSEWHEEL
-#include "lv_drivers/indev/mousewheel.h"
-#endif
 
 #if LV_USE_DEMO_KEYPAD_AND_ENCODER
 
@@ -75,7 +69,7 @@ struct {
 LV_EVENT_CB_DECLARE(dd_enc)
 {
     if(e == LV_EVENT_VALUE_CHANGED) {
-        printf("chg\n");
+        /*printf("chg\n");*/
     }
 }
 
@@ -84,23 +78,25 @@ void lv_demo_keypad_encoder(void)
     g = lv_group_create();
     lv_group_set_focus_cb(g, focus_cb);
 
+    lv_indev_t* cur_drv = NULL;
+    for (;;) {
+        cur_drv = lv_indev_get_next(cur_drv);
+        if (!cur_drv) {
+            break;
+        }
+
 #if LV_EX_KEYBOARD
-    lv_indev_drv_t kb_drv;
-    lv_indev_drv_init(&kb_drv);
-    kb_drv.type = LV_INDEV_TYPE_KEYPAD;
-    kb_drv.read_cb = keyboard_read;
-    lv_indev_t * kb_indev = lv_indev_drv_register(&kb_drv);
-    lv_indev_set_group(kb_indev, g);
+        if (cur_drv->driver.type == LV_INDEV_TYPE_KEYPAD) {
+            lv_indev_set_group(cur_drv, g);
+        }
 #endif
 
 #if LV_EX_MOUSEWHEEL
-    lv_indev_drv_t enc_drv;
-    lv_indev_drv_init(&enc_drv);
-    enc_drv.type = LV_INDEV_TYPE_ENCODER;
-    enc_drv.read_cb = mousewheel_read;
-    lv_indev_t * enc_indev = lv_indev_drv_register(&enc_drv);
-    lv_indev_set_group(enc_indev, g);
+        if (cur_drv->driver.type == LV_INDEV_TYPE_ENCODER) {
+            lv_indev_set_group(cur_drv, g);
+        }
 #endif
+    }
 
     tv = lv_tabview_create(lv_scr_act(), NULL);
     lv_obj_set_event_cb(tv, tv_event_cb);
@@ -133,6 +129,7 @@ static void selectors_create(lv_obj_t * parent)
 
    selector_objs.slider = lv_slider_create(parent, NULL);
    lv_slider_set_range(selector_objs.slider, 0, 10);
+   lv_slider_set_type(selector_objs.slider, LV_SLIDER_TYPE_RANGE);
 
    selector_objs.sw = lv_switch_create(parent, NULL);
 
@@ -147,13 +144,22 @@ static void selectors_create(lv_obj_t * parent)
    if(lv_obj_get_height(selector_objs.list) > lv_page_get_height_fit(parent)) {
        lv_obj_set_height(selector_objs.list, lv_page_get_height_fit(parent));
    }
-   lv_list_add_btn(selector_objs.list, LV_SYMBOL_OK, "Apply");
-   lv_list_add_btn(selector_objs.list, LV_SYMBOL_CLOSE, "Close");
-   lv_list_add_btn(selector_objs.list, LV_SYMBOL_EYE_OPEN, "Show");
-   lv_list_add_btn(selector_objs.list, LV_SYMBOL_EYE_CLOSE, "Hide");
-   lv_list_add_btn(selector_objs.list, LV_SYMBOL_TRASH, "Delete");
-   lv_list_add_btn(selector_objs.list, LV_SYMBOL_COPY, "Copy");
-   lv_list_add_btn(selector_objs.list, LV_SYMBOL_PASTE, "Paste");
+   lv_obj_t * bt;
+
+  bt=lv_list_add_btn(selector_objs.list, LV_SYMBOL_OK, "1");lv_group_add_obj(g,bt);
+  bt=lv_list_add_btn(selector_objs.list, LV_SYMBOL_CLOSE, "2");lv_group_add_obj(g,bt);
+  bt=lv_list_add_btn(selector_objs.list, LV_SYMBOL_EYE_CLOSE, "3");lv_group_add_obj(g,bt);
+  bt=lv_list_add_btn(selector_objs.list, LV_SYMBOL_TRASH, "4");lv_group_add_obj(g,bt);
+  bt=lv_list_add_btn(selector_objs.list, LV_SYMBOL_COPY, "5");lv_group_add_obj(g,bt);
+  bt=lv_list_add_btn(selector_objs.list, LV_SYMBOL_COPY, "6");lv_group_add_obj(g,bt);
+  bt=lv_list_add_btn(selector_objs.list, LV_SYMBOL_OK, "7");lv_group_add_obj(g,bt);
+  bt=lv_list_add_btn(selector_objs.list, LV_SYMBOL_CLOSE, "8");lv_group_add_obj(g,bt);
+  bt=lv_list_add_btn(selector_objs.list, LV_SYMBOL_EYE_CLOSE, "9");lv_group_add_obj(g,bt);
+  bt=lv_list_add_btn(selector_objs.list, LV_SYMBOL_TRASH, "10");lv_group_add_obj(g,bt);
+  bt=lv_list_add_btn(selector_objs.list, LV_SYMBOL_COPY, "11");lv_group_add_obj(g,bt);
+  bt=lv_list_add_btn(selector_objs.list, LV_SYMBOL_COPY, "12");lv_group_add_obj(g,bt);
+
+
 }
 
 static void text_input_create(lv_obj_t * parent)

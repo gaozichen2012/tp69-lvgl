@@ -92,7 +92,6 @@ build/obj/tp69_main.o: tp69_main.c \
  lv_tp69/../lvgl/src/lv_core/../lv_draw/../lv_conf_internal.h \
  lv_tp69/../lvgl/src/lv_core/../lv_draw/lv_img_buf.h \
  lv_tp69/../lvgl/src/lv_core/../lv_draw/../lv_misc/lv_fs.h \
- lv_tp69/../lvgl/src/lv_core/../lv_draw/../lv_misc/lv_mem.h \
  lv_tp69/../lvgl/src/lv_core/../lv_draw/../lv_misc/lv_types.h \
  lv_tp69/../lvgl/src/lv_core/lv_obj_style_dec.h \
  lv_tp69/../lvgl/src/lv_core/lv_group.h \

@@ -3,6 +3,8 @@
 #include "lcd.h"
 #include "gpio.h"
 
+#include "ql_lcd.h"
+
 #include <stdio.h>
 #include <string.h>
 #define DEBUG_EN 1
@@ -21,7 +23,7 @@ extern unsigned short usMap[LCD_WIDTH * LCD_HEIGHT];
 static void ili9341_flush_cb(lv_disp_drv_t *disp_drv, const lv_area_t *area, lv_color_t *color_p)
 {
 #if 1
-    memcpy(usMap, color_p, lv_area_get_size(area) * sizeof(lv_color_t));
+    memcpy(usMap, color_p, LCD_WIDTH * LCD_HEIGHT * 2);
     lcd_update_disp();
 
     /* IMPORTANT!!!
@@ -153,11 +155,11 @@ void lvgl_hal_init(void)
     static lv_disp_buf_t disp_buf; //包含内部图形缓冲区。
 
     /*Static or global buffer(s). The second buffer is optional*/
-    static lv_color_t buf_1[LV_HOR_RES_MAX * LV_VER_RES_MAX];
-    static lv_color_t buf_2[LV_HOR_RES_MAX * LV_VER_RES_MAX];
+    static lv_color_t buf_1[LCD_WIDTH * LCD_HEIGHT];
+    static lv_color_t buf_2[LCD_WIDTH * LCD_HEIGHT];
 
     /*Initialize `disp_buf` with the buffer(s) */
-    lv_disp_buf_init(&disp_buf, buf_1, buf_2, LV_HOR_RES_MAX * LV_VER_RES_MAX);
+    lv_disp_buf_init(&disp_buf, buf_1, buf_2, LCD_WIDTH * LCD_HEIGHT);
 #endif
 
     /* 
@@ -172,8 +174,8 @@ void lvgl_hal_init(void)
 
     lv_disp_drv_t disp_drv; //包含回调函数，可与显示交互并处理与图形相关的事物。
     lv_disp_drv_init(&disp_drv);
-    disp_drv.hor_res = LV_HOR_RES_MAX;
-    disp_drv.ver_res = LV_VER_RES_MAX;
+    disp_drv.hor_res = LCD_WIDTH;
+    disp_drv.ver_res = LCD_HEIGHT;
 
     disp_drv.buffer = &disp_buf;
     disp_drv.flush_cb = ili9341_flush_cb;

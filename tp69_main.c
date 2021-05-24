@@ -84,29 +84,31 @@ static void lv_tick_process(void *pData)
 {
 	while (1)
 	{
-		ql_rtos_task_sleep_ms(5);
+		ql_rtos_task_sleep_ms(1);
 		if (cnt1++ > 1000)
 		{
 			cnt1 = 0;
 			_DEBUG("tom test: tick 5s\r\n");
 		}
 
-		lv_tick_inc(5);
+		lv_tick_inc(1);
 	}
 }
 
 static void lv_task_process(void *pData)
 {
+	uint32_t rst = 0;
 	while (1)
 	{
-		ql_rtos_task_sleep_ms(5);
+		ql_rtos_task_sleep_ms(1);
 
-		if (cnt2++ > 1000)
+		if (cnt2++ > 500)
 		{
 			cnt2 = 0;
 			_DEBUG("tom test: task 5s\r\n");
 		}
-		lv_task_handler();
+		rst = lv_task_handler();
+		_DEBUG("tom test: task rst=%d\r\n", rst);
 	}
 }
 
@@ -122,9 +124,9 @@ void tp69_mcu_main_task(void *pData)
 	gpio_port_init();
 #endif
 
-	ql_rtos_task_create(&lv_start_ref, 1024 * 32, 76, "lv_start_process", lv_start_process, NULL);
-	ql_rtos_task_create(&lv_task_ref, 2048, 75, "lv_task_process", lv_task_process, NULL);
-	ql_rtos_task_create(&lv_tick_ref, 2048, 74, "lv_tick_process", lv_tick_process, NULL);
+	ql_rtos_task_create(&lv_start_ref, 1024 * 2, 76, "lv_start_process", lv_start_process, NULL);
+	ql_rtos_task_create(&lv_task_ref, 1024 * 8, 75, "lv_task_process", lv_task_process, NULL);
+	ql_rtos_task_create(&lv_tick_ref, 1024 * 2, 74, "lv_tick_process", lv_tick_process, NULL);
 
 	while (1)
 		ql_rtos_task_sleep_s(1000);

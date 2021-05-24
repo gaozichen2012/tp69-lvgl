@@ -21,8 +21,8 @@ void lv_ex_img_3(void)
     lv_anim_start(&a);
 
     lv_anim_set_exec_cb(&a, (lv_anim_exec_xcb_t)lv_img_set_zoom);
-    lv_anim_set_values(&a, 128, 256);
-    lv_anim_set_playback_time(&a, 3000);
+    lv_anim_set_values(&a, 128, 400);
+    lv_anim_set_playback_time(&a, 1000);
     lv_anim_start(&a);
 
 }

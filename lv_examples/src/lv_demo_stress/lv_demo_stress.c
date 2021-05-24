@@ -71,12 +71,13 @@ static void obj_test_task_cb(lv_task_t * param)
         case -1:
         {
             lv_res_t res = lv_mem_test();
-            if(res != LV_RES_OK) LV_LOG_ERROR("Memory integrity error");
+            if(res != LV_RES_OK) {
+                LV_LOG_ERROR("Memory integrity error");
+            }
 
             lv_mem_monitor_t mon;
             lv_mem_monitor(&mon);
-            volatile int32_t diff = mem_free_start - mon.free_size;
-            LV_LOG_USER("mem leak since start: %d, frag: %3d %%",  diff, mon.frag_pct);
+            LV_LOG_USER("mem leak since start: %d, frag: %3d %%",  mem_free_start - mon.free_size, mon.frag_pct);
         }
             break;
         case 0:
@@ -228,7 +229,7 @@ static void obj_test_task_cb(lv_task_t * param)
 
         case 12:
             obj = lv_roller_create(main_page, NULL);
-            lv_roller_set_options(obj, "Zero\nOne\nTwo\nThree\nFour\nFive\nSix\nSeven\nEight", LV_ROLLER_MODE_INIFINITE);
+            lv_roller_set_options(obj, "Zero\nOne\nTwo\nThree\nFour\nFive\nSix\nSeven\nEight", LV_ROLLER_MODE_INFINITE);
             lv_roller_set_anim_time(obj, TIME_STEP);
             lv_roller_set_selected(obj, 2, LV_ANIM_ON);
             auto_del(obj, TIME_STEP * 20 + 22);

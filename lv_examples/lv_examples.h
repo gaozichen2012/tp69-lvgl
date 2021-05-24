@@ -39,12 +39,13 @@ extern "C" {
 #include "src/lv_demo_stress/lv_demo_stress.h"
 #include "src/lv_demo_keypad_encoder/lv_demo_keypad_encoder.h"
 #include "src/lv_demo_printer/lv_demo_printer.h"
+#include "src/lv_demo_music/lv_demo_music.h"
 
 /*********************
  *      DEFINES
  *********************/
 /*Test  lvgl version*/
-#if LV_VERSION_CHECK(7, 5, 0) == 0
+#if LV_VERSION_CHECK(7, 11, 0) == 0
 #error "lv_examples: Wrong lvgl version"
 #endif
 

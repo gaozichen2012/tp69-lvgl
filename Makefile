@@ -24,15 +24,15 @@ SRC_FILES+= font.c gpio.c lcd.c tp69_main.c \
             lv_tp69/assets/freq_20x20.c \
             lv_examples/src/lv_demo_benchmark/lv_demo_benchmark.c \
             lv_examples/src/lv_demo_widgets/lv_demo_widgets.c \
-            lv_examples/assets/img_cogwheel_alpha16.c \
-            lv_examples/assets/img_cogwheel_argb.c \
-            lv_examples/assets/img_cogwheel_chroma_keyed.c \
-            lv_examples/assets/img_cogwheel_indexed16.c \
-            lv_examples/assets/img_cogwheel_rgb.c \
-            lv_examples/assets/img_hand.c \
-            lv_examples/assets/lv_font_montserrat_12_compr_az.c \
-            lv_examples/assets/lv_font_montserrat_16_compr_az.c \
-            lv_examples/assets/lv_font_montserrat_28_compr_az.c \
+            lv_examples/src/assets/img_cogwheel_alpha16.c \
+            lv_examples/src/assets/img_cogwheel_argb.c \
+            lv_examples/src/assets/img_cogwheel_chroma_keyed.c \
+            lv_examples/src/assets/img_cogwheel_indexed16.c \
+            lv_examples/src/assets/img_cogwheel_rgb.c \
+            lv_examples/src/assets/img_hand.c \
+            lv_examples/src/assets/lv_font_montserrat_12_compr_az.c \
+            lv_examples/src/assets/lv_font_montserrat_16_compr_az.c \
+            lv_examples/src/assets/lv_font_montserrat_28_compr_az.c \
 
 #-------------------------------------------------------------------------------
 # the include directories
