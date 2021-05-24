@@ -34,7 +34,8 @@ build/obj/tp69_main.o: tp69_main.c \
  Zpoc.h general_include.h tom_flash.h lcd.h font.h lv_tp69/lv_tp69.h \
  lv_tp69/../lvgl/lvgl.h lv_tp69/../lvgl/src/lv_misc/lv_log.h \
  lv_tp69/../lvgl/src/lv_misc/../lv_conf_internal.h \
- lv_tp69/../lvgl/src/lv_misc/../../../lv_conf.h \
+ lv_tp69/../lvgl/src/lv_misc/../lv_conf_kconfig.h \
+ F:\6-ec100y-environment\ql-sdk-la-for-lvgl\ql-application\threadx/interface/tp69/lv_conf.h \
  lv_tp69/../lvgl/src/lv_misc/lv_task.h \
  lv_tp69/../lvgl/src/lv_misc/lv_mem.h \
  lv_tp69/../lvgl/src/lv_misc/lv_log.h \
@@ -49,6 +50,7 @@ build/obj/tp69_main.o: tp69_main.c \
  lv_tp69/../lvgl/src/lv_hal/../lv_misc/lv_color.h \
  lv_tp69/../lvgl/src/lv_hal/../lv_misc/../lv_conf_internal.h \
  lv_tp69/../lvgl/src/lv_hal/../lv_misc/lv_math.h \
+ lv_tp69/../lvgl/src/lv_hal/../lv_misc/lv_types.h \
  lv_tp69/../lvgl/src/lv_hal/../lv_misc/lv_area.h \
  lv_tp69/../lvgl/src/lv_hal/../lv_misc/lv_mem.h \
  lv_tp69/../lvgl/src/lv_hal/../lv_misc/lv_ll.h \
@@ -83,6 +85,7 @@ build/obj/tp69_main.o: tp69_main.c \
  lv_tp69/../lvgl/src/lv_core/../lv_draw/../lv_misc/lv_txt.h \
  lv_tp69/../lvgl/src/lv_core/../lv_draw/../lv_misc/lv_area.h \
  lv_tp69/../lvgl/src/lv_core/../lv_draw/../lv_misc/../lv_font/lv_font.h \
+ lv_tp69/../lvgl/src/lv_core/../lv_draw/../lv_misc/lv_printf.h \
  lv_tp69/../lvgl/src/lv_core/../lv_draw/lv_draw_line.h \
  lv_tp69/../lvgl/src/lv_core/../lv_draw/lv_draw_img.h \
  lv_tp69/../lvgl/src/lv_core/../lv_draw/lv_img_decoder.h \
